@@ -1,98 +1,87 @@
-<?php namespace KnightSwarm\LaravelSaml;
+<?php
 
+namespace KnightSwarm\LaravelSaml;
 
-use \Saml;
-use \User;
-use \Auth;
-use \Cookie;
-use \Config;
+use Saml;
+use User;
+use Cookie;
 
 class Account {
 
-    protected function getUserIdProperty() {
-        return Config::get('laravel-saml::saml.internal_id_property', 'email');
-    }
+  protected function getUserIdProperty() {
+    return config('laravel-saml::saml.internal_id_property', 'email');
+  }
 
-    protected function getSamlIdProperty() {
-        return Config::get('laravel-saml::saml.saml_id_property', 'email');
-    }
-    /**
-     * Check if the id exists in the specified user property.
-     * If no property is defined default to 'email'.
-     */
-    public function IdExists($id)
-    {
-        $property = $this->getUserIdProperty();
-        $user = User::where($property, "=", $id)->count();
-        return $user === 0 ? false : true;
-    }
+  protected function getSamlIdProperty() {
+    return config('laravel-saml::saml.saml_id_property', 'email');
+  }
 
-    public function samlLogged()
-    {
-        return Saml::isAuthenticated();
-    }
+  public function IdExists($id) {
+    $property = $this->getUserIdProperty();
+    $user_check = config('laravel-saml::saml.user_check');
+    $user = $user_check($id);
+    $user     = User::where($property, "=", $id)->count();
 
-    public function samlLogin()
-    {
-        Saml::requireAuth();
-    }
+    return $user === 0 ? false : true;
+  }
 
-    public function laravelLogin($id)
-    {
-        if ($this->IdExists($id)) {
-            $property = $this->getUserIdProperty();
-            $userid = (int)User::where($property, "=", $id)->take(1)->get()[0]->id;
-            Auth::login(User::find($userid));
-        }
-    }
+  public function samlLogged() {
+    return Saml::isAuthenticated();
+  }
 
-    public function getSamlAttribute($attribute)
-    {
-        $data = Saml::getAttributes();
-        return $data[$attribute][0];
-    }
+  public function samlLogin() {
+    Saml::requireAuth();
+  }
 
-    public function getSamlUniqueIdentifier()
-    {
-        return $this->getSamlAttribute($this->getSamlIdProperty()); 
+  public function laravelLogin($id) {
+    if ($this->IdExists($id)) {
+      $property = $this->getUserIdProperty();
+      $userid   = (int) User::where($property, "=", $id)->take(1)->get()[0]->id;
+      auth()->login(User::find($userid));
     }
+  }
 
-    public function getSamlName()
-    {
-        return $data['SAML_FIRST_NAME'][0] . ' ' . $data['SAML_LAST_NAME'][0];
-    }
+  public function getSamlAttribute($attribute) {
+    $data = Saml::getAttributes();
 
-    public function laravelLogged()
-    {
-        return Auth::check();
-    }
+    return $data[$attribute][0];
+  }
 
-    /**
-     * If mapping between saml attributes and object attributes are defined
-     * then fill user object with mapped values.
-     */
-    protected function fillUserDetails($user)
-    {
-         $mappings = Config::get('laravel-saml::saml.object_mappings',[]);
-         foreach($mappings as $key => $mapping)
-         {
-             $user->{$key} = $this->getSamlAttribute($mapping);
-         }
-    }
+  public function getSamlUniqueIdentifier() {
+    return $this->getSamlAttribute($this->getSamlIdProperty());
+  }
 
-    public function createUser()
-    {
-        $user = new User();
-        $user->{$this->getUserIdProperty()} = $this->getSamlUniqueIdentifier();
-        $this->fillUserDetails($user);
-        $user->save();
-        $this->laravelLogin($user->{$this->getUserIdProperty()});
-    }
+  public function getSamlName() {
+    return $data['SAML_FIRST_NAME'][0] . ' ' . $data['SAML_LAST_NAME'][0];
+  }
 
-    public function logout()
-    {
-        Auth::logout();
-        $auth_cookie = Cookie::forget('SimpleSAMLAuthToken');
-        return $auth_cookie;
+  public function laravelLogged() {
+    return auth()->check();
+  }
+
+  /**
+   * If mapping between saml attributes and object attributes are defined
+   * then fill user object with mapped values.
+   */
+  protected function fillUserDetails($user) {
+    $mappings = config('laravel-saml::saml.object_mappings', []);
+    foreach ($mappings as $key => $mapping) {
+      $user->{$key} = $this->getSamlAttribute($mapping);
     }
+  }
+
+  public function createUser() {
+    $user                               = new User();
+    $user->{$this->getUserIdProperty()} = $this->getSamlUniqueIdentifier();
+    $this->fillUserDetails($user);
+    $user->save();
+    $this->laravelLogin($user->{$this->getUserIdProperty()});
+  }
+
+  public function logout() {
+    auth()->logout();
+    $auth_cookie = Cookie::forget('SimpleSAMLAuthToken');
+
+    return $auth_cookie;
+  }
 }

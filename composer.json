@@ -1,37 +1,19 @@
 {
-    "name": "knight-swarm/laravel-saml",
-    "description": "saml auth provider for laravel 4.*",
-    "keywords": ["saml", "laravel", "laravel-saml", "sso"],
-    "license": "MIT",
-    "authors": [
-        {
-            "name": "KnightSwarm Handelsbolag",
-            "email": "code@knightswarm.com"
-        },
-        {
-            "name": "Tom Mount",
-            "email": "tmountjr@ebay.com"
-        },
-        {
-            "name": "Phil Preston",
-            "email": "phpreston@ebay.com"
-        },
-        {
-            "name": "Jeremy French",
-            "email": "jeremy@jeremyfrench.co.uk"
-        }
+  "name": "jmellentine/laravel-saml",
+  "description": "saml auth provider for laravel 5.*",
+  "license": "MIT",
+  "require": {
+    "php": ">=5.5.0",
+    "illuminate/support": "~5",
+    "simplesamlphp/simplesamlphp": "~1"
+  },
+  "autoload": {
+    "classmap": [
+      "src/controllers"
     ],
-    "require": {
-        "php": ">=5.3.0",
-        "illuminate/support": "~4.1"
-    },
-    "autoload": {
-        "classmap": [
-            "src/controllers"
-        ],
-        "psr-0": {
-            "KnightSwarm\\LaravelSaml": "src/"
-        }
-    },
-    "minimum-stability": "stable"
+    "psr-0": {
+      "KnightSwarm\\LaravelSaml": "src/"
+    }
+  },
+  "minimum-stability": "stable"
 }

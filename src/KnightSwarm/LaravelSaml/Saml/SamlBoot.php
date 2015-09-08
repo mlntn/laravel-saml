@@ -1,35 +1,24 @@
-<?php namespace KnightSwarm\LaravelSaml\Saml;
+<?php
 
-use \Config;
+namespace KnightSwarm\LaravelSaml\Saml;
 
 class SamlBoot {
 
+  protected $path;
+  protected $sp;
+  protected $saml;
 
-    protected $path;
-    protected $sp;
-    protected $saml;
+  public function __construct($samlSpResolver) {
+    $this->sp_resolver = $samlSpResolver;
+    $this->saml        = $this->setupSimpleSaml();
+  }
 
-    public function __construct($samlSpResolver)
-    {
-        $this->sp_resolver = $samlSpResolver;
-        $this->saml = $this->setupSimpleSaml();
-    }
+  public function getSimpleSaml() {
+    return $this->saml;
+  }
 
-    public function getSimpleSaml()
-    {
-        return $this->saml;
-    }
+  protected function setupSimpleSaml() {
+    return new \SimpleSAML_Auth_Simple($this->sp_resolver);
+  }
 
-
-    protected function setupSimpleSaml()
-    {
-        $this->path = Config::get('laravel-saml::saml.sp_path', public_path()."/sp/www");
-        $this->sp   = $this->sp_resolver;
-
-        require_once($this->path.'/lib/_autoload.php');
-
-        return new \SimpleSAML_Auth_Simple($this->sp);
-    }
-
-
-} 
+}
