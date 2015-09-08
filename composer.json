@@ -5,7 +5,7 @@
   "require": {
     "php": ">=5.5.0",
     "illuminate/support": "~5",
-    "simplesamlphp/simplesamlphp": "~1"
+    "simplesamlphp/simplesamlphp": "*"
   },
   "autoload": {
     "classmap": [
@@ -15,5 +15,5 @@
       "KnightSwarm\\LaravelSaml": "src/"
     }
   },
-  "minimum-stability": "stable"
+  "minimum-stability": "dev"
 }
