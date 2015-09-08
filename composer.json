@@ -8,9 +8,6 @@
     "simplesamlphp/simplesamlphp": "*"
   },
   "autoload": {
-    "classmap": [
-      "src/controllers"
-    ],
     "psr-0": {
       "KnightSwarm\\LaravelSaml": "src/"
     }
