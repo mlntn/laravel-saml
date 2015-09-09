@@ -2,7 +2,7 @@
 
 namespace KnightSwarm\LaravelSaml;
 
-use KnightSwarm\Contracts\UserContract;
+use KnightSwarm\LaravelSaml\Contracts\UserContract;
 use Saml;
 use User;
 use Cookie;

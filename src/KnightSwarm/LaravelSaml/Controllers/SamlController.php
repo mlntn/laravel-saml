@@ -3,7 +3,7 @@
 namespace KnightSwarm\LaravelSaml\Controllers;
 
 use Illuminate\Routing\Controller as BaseController;
-use KnightSwarm\Contracts\UserContract;
+use KnightSwarm\LaravelSaml\Contracts\UserContract;
 use KnightSwarm\LaravelSaml\Account;
 
 class SamlController extends BaseController {
