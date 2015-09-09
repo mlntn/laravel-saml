@@ -2,26 +2,28 @@
 
 namespace KnightSwarm\LaravelSaml;
 
+use KnightSwarm\Contracts\UserContract;
 use Saml;
 use User;
 use Cookie;
 
 class Account {
 
-  protected function getUserIdProperty() {
-    return config('saml.internal_id_property', 'email');
+  /**
+   * @var UserContract
+   */
+  protected $user;
+
+  public function __construct(UserContract $user) {
+    $this->user = $user;
   }
 
   protected function getSamlIdProperty() {
     return config('saml.saml_id_property', 'email');
   }
 
-  public function IdExists($id) {
-    $property = $this->getUserIdProperty();
-    $check = config('saml.user.check');
-    $user = call_user_func($check, $property, $id);
-
-    return $user === 0 ? false : true;
+  public function exists($id) {
+    return $this->user->exists($id);
   }
 
   public function samlLogged() {
@@ -29,17 +31,17 @@ class Account {
   }
 
   public function samlLogin() {
-    Saml::requireAuth();
+    return Saml::requireAuth();
   }
 
   public function laravelLogin($id) {
-    if ($this->IdExists($id)) {
-      $property = $this->getUserIdProperty();
-      $find = config('saml.user.find');
-      $user = call_user_func($find, $property, $id);
+    $user = $this->user->get($id);
 
-      auth()->login($user);
-    }
+    auth()->login($user);
+  }
+
+  public function setupUser($id) {
+    return $this->user->setup($id);
   }
 
   public function getSamlAttribute($attribute) {
@@ -54,25 +56,6 @@ class Account {
 
   public function laravelLogged() {
     return auth()->check();
-  }
-
-  /**
-   * If mapping between saml attributes and object attributes are defined
-   * then fill user object with mapped values.
-   */
-  protected function fillUserDetails($user) {
-    $mappings = config('laravel-saml::saml.object_mappings', []);
-    foreach ($mappings as $key => $mapping) {
-      $user->{$key} = $this->getSamlAttribute($mapping);
-    }
-  }
-
-  public function createUser() {
-    $user                               = new User();
-    $user->{$this->getUserIdProperty()} = $this->getSamlUniqueIdentifier();
-    $this->fillUserDetails($user);
-    $user->save();
-    $this->laravelLogin($user->{$this->getUserIdProperty()});
   }
 
   public function logout() {
