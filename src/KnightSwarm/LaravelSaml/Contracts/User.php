@@ -2,7 +2,7 @@
 
 namespace KnightSwarm\LaravelSaml\Contracts;
 
-interface UserContract {
+interface User {
 
   /**
    * @param string $identifier
