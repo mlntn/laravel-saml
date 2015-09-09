@@ -15,16 +15,24 @@ return array(
   /*
    * The service provider name
    */
-  'sp_name'       => "default_sp",
+  'sp_name'          => 'best-venue',
 
   /*
    * The redirect destination after logging out
    */
-  'logout_target' => config('app.url'),
+  'logout_target'    => config('app.url'),
 
-  'user_check'    => function ($id) {
-    return false;
-  },
+  'user'             => [
+    'check' => function ($property, $id) {
+      // TODO: put your own logic here, should return a boolean
+      return false;
+    },
+
+    'find'  => function ($property, $id) {
+      // TODO: put your own logic here, should return a user model object
+      return null;
+    },
+  ],
 
   /*
    * Internal id property, defaults to email.
@@ -36,8 +44,9 @@ return array(
    * Saml id property defaults to email, the property
    * in the saml packet which should be mapped to the
    * internal id property.
-   * 'saml_id_property' => 'email',
+   *
    */
+  'saml_id_property' => 'uid',
 
   /*
    * object_mappings.

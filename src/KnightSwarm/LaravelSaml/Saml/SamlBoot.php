@@ -2,6 +2,8 @@
 
 namespace KnightSwarm\LaravelSaml\Saml;
 
+use SimpleSAML_Configuration;
+
 class SamlBoot {
 
   protected $path;
@@ -18,6 +20,8 @@ class SamlBoot {
   }
 
   protected function setupSimpleSaml() {
+    SimpleSAML_Configuration::setConfigDir(base_path('saml'));
+
     return new \SimpleSAML_Auth_Simple($this->sp_resolver);
   }
 

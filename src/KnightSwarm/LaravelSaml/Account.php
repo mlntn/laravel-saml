@@ -9,18 +9,17 @@ use Cookie;
 class Account {
 
   protected function getUserIdProperty() {
-    return config('laravel-saml::saml.internal_id_property', 'email');
+    return config('saml.internal_id_property', 'email');
   }
 
   protected function getSamlIdProperty() {
-    return config('laravel-saml::saml.saml_id_property', 'email');
+    return config('saml.saml_id_property', 'email');
   }
 
   public function IdExists($id) {
     $property = $this->getUserIdProperty();
-    $user_check = config('laravel-saml::saml.user_check');
-    $user = $user_check($id);
-    $user     = User::where($property, "=", $id)->count();
+    $check = config('saml.user.check');
+    $user = call_user_func($check, $property, $id);
 
     return $user === 0 ? false : true;
   }
@@ -36,8 +35,10 @@ class Account {
   public function laravelLogin($id) {
     if ($this->IdExists($id)) {
       $property = $this->getUserIdProperty();
-      $userid   = (int) User::where($property, "=", $id)->take(1)->get()[0]->id;
-      auth()->login(User::find($userid));
+      $find = config('saml.user.find');
+      $user = call_user_func($find, $property, $id);
+
+      auth()->login($user);
     }
   }
 
@@ -49,10 +50,6 @@ class Account {
 
   public function getSamlUniqueIdentifier() {
     return $this->getSamlAttribute($this->getSamlIdProperty());
-  }
-
-  public function getSamlName() {
-    return $data['SAML_FIRST_NAME'][0] . ' ' . $data['SAML_LAST_NAME'][0];
   }
 
   public function laravelLogged() {

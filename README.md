@@ -20,7 +20,7 @@ After we have this package, we need to load it on Laravel, for this, add this
 
     'KnightSwarm\LaravelSaml\LaravelSamlServiceProvider'
 
-service provider on the `'providers'` array (`app/config/app.php`)
+service provider on the `'providers'` array (`config/app.php`)
 
 and the 
 
@@ -31,23 +31,21 @@ and the
  
  Now, we need to configure it, run
  
-     php artisan config:publish knight-swarm/laravel-saml
+     php artisan vendor:publish
     
- the above command will create a `saml.php` file inside `app/config/packages/knight-swarm/laravel-saml`, edit this file and be sure to insert:
+ the above command will create a `saml.php` file inside `config`, edit this file and be sure to insert:
  
- Your **SimpleSamlPHP** SP install path
- 
-     'sp_path' => app_path()."/../../sp",
-     
  Your default SP id
  
      'sp_name' => 'saml.dev',
      
- And afther logout, where users, should go,
+ And after logout, where users, should go,
  
      'logout_target' => 'http://saml.dev'
      
-This Package will trigger `/login` and `/logout`
+You will need to setup routes like this:
 
-##@TODO
-We need to implement custom attributes bindings on model and database, for PoC it gets only `uid` and `name` attribuites and will fail it they does not exists
+    Route::post('sso/login', '\KnightSwarm\LaravelSaml\Controllers\SamlController@login');
+    Route::post('sso/logout', '\KnightSwarm\LaravelSaml\Controllers\SamlController@logout');
+
+
