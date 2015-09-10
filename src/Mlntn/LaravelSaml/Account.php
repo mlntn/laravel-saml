@@ -2,18 +2,18 @@
 
 namespace Mlntn\LaravelSaml;
 
-use Mlntn\LaravelSaml\Contracts\UserContract;
+use Mlntn\LaravelSaml\Contracts\User;
 use Saml;
 use Cookie;
 
 class Account {
 
   /**
-   * @var UserContract
+   * @var User
    */
   protected $user;
 
-  public function __construct(UserContract $user) {
+  public function __construct(User $user) {
     $this->user = $user;
   }
 
