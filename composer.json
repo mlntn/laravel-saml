@@ -5,12 +5,12 @@
   "require": {
     "php": ">=5.5.0",
     "illuminate/support": "~5",
-    "simplesamlphp/simplesamlphp": "*"
+    "simplesamlphp/simplesamlphp": "~1.13.0"
   },
   "autoload": {
     "psr-0": {
       "Mlntn\\LaravelSaml": "src/"
     }
   },
-  "minimum-stability": "dev"
+  "minimum-stability": "stable"
 }
