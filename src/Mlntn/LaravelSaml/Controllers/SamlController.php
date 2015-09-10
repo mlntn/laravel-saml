@@ -3,14 +3,14 @@
 namespace Mlntn\LaravelSaml\Controllers;
 
 use Illuminate\Routing\Controller as BaseController;
-use Mlntn\LaravelSaml\Contracts\UserContract;
+use Mlntn\LaravelSaml\Contracts\User;
 use Mlntn\LaravelSaml\Account;
 
 class SamlController extends BaseController {
 
   private $account;
 
-  public function __construct(UserContract $user) {
+  public function __construct(User $user) {
     $this->account = new Account($user);
   }
 
