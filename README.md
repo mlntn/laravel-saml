@@ -1,6 +1,8 @@
 laravel-saml
 ============
 
+Based on [laravel-saml](https://github.com/KnightSwarm/laravel-saml) (a Laravel 4 project by [KnightSwarm](https://github.com/KnightSwarm)).
+
 Open Source SAML Auth Support for Laravel using simplesamlphp.
 
 
@@ -13,34 +15,29 @@ Open Source SAML Auth Support for Laravel using simplesamlphp.
 
 First, we need this package available on Laravel, update your `composer.json` dependencies with:
     
-    "jmellentine/laravel-saml": "dev-master"
+    "mlntn/laravel-saml": "dev-master"
     
 and run `composer update`
 
-After we have this package, we need to load it on Laravel, for this, add this service provider to the `'providers'` array in `config/app.php`
+After we have this package, we need to load it on Laravel, for this, add this service provider to the `'providers'` array in `config/app.php`:
 
-    'KnightSwarm\LaravelSaml\LaravelSamlServiceProvider'
+    'Mlntn\LaravelSaml\LaravelSamlServiceProvider'
 
+and this facade to the `'aliases'` array.
 
+    'Saml' => 'Mlntn\LaravelSaml\Facades\Saml'
 
-and the 
-
-    'Saml' => 'KnightSwarm\LaravelSaml\Facades\Saml'
-
- facade on the `'aliases'` array.
- 
- 
  Now, we need to configure it, run the following to create a `saml.php` file inside `config`:
  
      php artisan vendor:publish
      
 You will need to setup routes like this:
 
-    Route::post('sso/login', '\KnightSwarm\LaravelSaml\Controllers\SamlController@login');
-    Route::post('sso/logout', '\KnightSwarm\LaravelSaml\Controllers\SamlController@logout');
+    Route::post('sso/login', '\Mlntn\LaravelSaml\Controllers\SamlController@login');
+    Route::post('sso/logout', '\Mlntn\LaravelSaml\Controllers\SamlController@logout');
 
 
-You will also need to create a service provider class that implements `KnightSwarm\LaravelSaml\Contracts\User` and register that class in AppServiceProvider.
+You will also need to create a service provider class that implements `Mlntn\LaravelSaml\Contracts\User` and register that class in AppServiceProvider.
 
 Here is an example implementation:
 
@@ -50,7 +47,7 @@ Here is an example implementation:
 namespace App\Services;
 
 use App\Models\User;
-use KnightSwarm\LaravelSaml\Contracts\User as UserContract;
+use Mlntn\LaravelSaml\Contracts\User as UserContract;
 
 class SamlUser implements UserContract {
 

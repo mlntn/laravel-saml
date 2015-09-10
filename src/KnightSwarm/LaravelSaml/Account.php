@@ -1,10 +1,9 @@
 <?php
 
-namespace KnightSwarm\LaravelSaml;
+namespace Mlntn\LaravelSaml;
 
-use KnightSwarm\LaravelSaml\Contracts\UserContract;
+use Mlntn\LaravelSaml\Contracts\UserContract;
 use Saml;
-use User;
 use Cookie;
 
 class Account {

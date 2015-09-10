@@ -1,10 +1,10 @@
 <?php
 
-namespace KnightSwarm\LaravelSaml\Controllers;
+namespace Mlntn\LaravelSaml\Controllers;
 
 use Illuminate\Routing\Controller as BaseController;
-use KnightSwarm\LaravelSaml\Contracts\UserContract;
-use KnightSwarm\LaravelSaml\Account;
+use Mlntn\LaravelSaml\Contracts\UserContract;
+use Mlntn\LaravelSaml\Account;
 
 class SamlController extends BaseController {
 

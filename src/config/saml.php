@@ -19,4 +19,5 @@ return [
    *
    */
   'saml_id_property' => 'uid',
+
 ];

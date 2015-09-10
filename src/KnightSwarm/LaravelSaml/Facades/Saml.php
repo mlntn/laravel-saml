@@ -1,6 +1,6 @@
 <?php
 
-namespace KnightSwarm\LaravelSaml\Facades;
+namespace Mlntn\LaravelSaml\Facades;
 
 use Illuminate\Support\Facades\Facade;
 

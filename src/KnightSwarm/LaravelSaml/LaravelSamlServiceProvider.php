@@ -1,15 +1,10 @@
-<?php namespace KnightSwarm\LaravelSaml;
+<?php
+
+namespace Mlntn\LaravelSaml;
 
 use Illuminate\Support\ServiceProvider;
 
 class LaravelSamlServiceProvider extends ServiceProvider {
-
-  /**
-   * Indicates if loading of the provider is deferred.
-   *
-   * @var bool
-   */
-  protected $defer = false;
 
   /**
    * Bootstrap the application events.
@@ -34,15 +29,6 @@ class LaravelSamlServiceProvider extends ServiceProvider {
 
       return $samlboot->getSimpleSaml();
     });
-  }
-
-  /**
-   * Get the services provided by the provider.
-   *
-   * @return array
-   */
-  public function provides() {
-    return [];
   }
 
 }

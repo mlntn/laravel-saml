@@ -1,6 +1,6 @@
 <?php
 
-namespace KnightSwarm\LaravelSaml\Saml;
+namespace Mlntn\LaravelSaml\Saml;
 
 use SimpleSAML_Configuration;
 

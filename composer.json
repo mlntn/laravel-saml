@@ -1,6 +1,6 @@
 {
-  "name": "jmellentine/laravel-saml",
-  "description": "saml auth provider for laravel 5.*",
+  "name": "mlntn/laravel-saml",
+  "description": "SAML auth provider for Laravel 5.*",
   "license": "MIT",
   "require": {
     "php": ">=5.5.0",
@@ -9,7 +9,7 @@
   },
   "autoload": {
     "psr-0": {
-      "KnightSwarm\\LaravelSaml": "src/"
+      "Mlntn\\LaravelSaml": "src/"
     }
   },
   "minimum-stability": "dev"

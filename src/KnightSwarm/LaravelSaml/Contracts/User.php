@@ -1,6 +1,6 @@
 <?php
 
-namespace KnightSwarm\LaravelSaml\Contracts;
+namespace Mlntn\LaravelSaml\Contracts;
 
 interface User {
 
